@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="marisolantunez" created="Thu Apr 07 06:46:40 PDT 2022" guiVersion="5.14.0.13" id="1649347762619" licenseCode="CLP1DNXAXX19317363EX" name="Example" showComponentDetails="true">
+<Global>
+<Metadata id="Metadata0">
+<Record fieldDelimiter="," name="CulturalSpace" previewAttachment="${DATAIN_DIR}/CulturalSpace.csv" previewAttachmentCharset="UTF-8" quoteChar="both" quotedStrings="true" recordDelimiter="\n" skipSourceRows="1" type="delimited">
+<Field label="﻿Name" name="Name" type="string"/>
+<Field label="Phone" name="Phone" type="string"/>
+<Field label="URL" name="URL" type="string"/>
+<Field label="Square Feet Total" name="Square_Feet_Total" type="string"/>
+<Field label="Neighborhood" name="Neighborhood" type="string"/>
+<Field label="Organization Type" name="Organization_Type" type="string"/>
+<Field label="Dominant Discipline" name="Dominant_Discipline" type="string"/>
+<Field label="Year of Occupation" name="Year_of_Occupation" type="string"/>
+<Field label="Rent vs Own" name="Rent_vs_Own" type="string"/>
+<Field label="Age of Current Building" name="Age_of_Current_Building" type="string"/>
+<Field label="Length of Lease (Date)" name="Length_of_Lease_Date" type="string"/>
+<Field label=" Year Organization Founded" name="Year_Organization_Founded" type="string"/>
+<Field label="Number of Past Facilities" name="Number_of_Past_Facilities" type="string"/>
+<Field label="Stages and Theaters" name="Stages_and_Theaters" type="string"/>
+<Field label="Stage &amp; Theater Seats " name="Stage_Theater_Seats" type="string"/>
+<Field label="Gallery Space" name="Gallery_Space" type="string"/>
+<Field label="Gallery Square Feet" name="Gallery_Square_Feet" type="string"/>
+<Field label="ADA Compliant" name="ADA_Compliant" type="string"/>
+<Field label="Available Parking" name="Available_Parking" type="string"/>
+<Field label="Street Presence" name="Street_Presence" type="string"/>
+<Field label="Rental Space " name="Rental_Space" type="string"/>
+<Field label="Alcohol Sales" name="Alcohol_Sales" type="string"/>
+<Field label="Organization Mission" name="Organization_Mission" type="string"/>
+<Field label="Funded by A&amp;C" name="Funded_by_A_C" type="string"/>
+<Field label="Funded by 4Culture" name="Funded_by_4Culture" type="string"/>
+<Field label="Stability Index (5=very stable, 1=very uncertain)" name="Stability_Index_5_very_stable_1_very_uncertain" type="string"/>
+<Field label="Control Index (5=very in control, 1 = very out of control) " name="Control_Index_5_very_in_control_1_very_out_of_control" type="string"/>
+<Field label="Constituency over 50% one race" name="Constituency_over_50_one_race" type="string"/>
+<Field label="Specific Demographics and Community" name="Specific_Demographics_and_Community" type="string"/>
+<Field label="Organization Leadership" name="Organization_Leadership" type="string"/>
+<Field label="Organization Artists" name="Organization_Artists" type="string"/>
+<Field label="Closed Date" name="Closed_Date" type="string"/>
+<Field label="Closed?" name="Closed" type="string"/>
+<Field label="Address" name="Address" type="string"/>
+<Field label="Location" name="Location" type="string"/>
+<Field label="Latitude" name="Latitude" type="string"/>
+<Field eofAsDelimiter="true" label="Longitude" name="Longitude" type="string"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata1">
+<Record fieldDelimiter=";" name="Neighborhood" recordDelimiter="\n" type="delimited">
+<Field name="NeighborhoodGroup" size="255" type="string"/>
+</Record>
+</Metadata>
+<Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="NewConnection" password="database-5200project" type="JDBC" user="root"/>
+<GraphParameters>
+<GraphParameterFile fileURL="workspace.prm"/>
+</GraphParameters>
+<Dictionary/>
+</Global>
+<Phase number="0">
+<Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="252" guiY="356" id="DATABASE_READER" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Distinct NeighborhoodGroup FROM Neighborhood]]></attr>
+</Node>
+<Node debugPrint="true" guiName="Trash" guiX="489" guiY="332" id="TRASH" type="TRASH"/>
+<Node guiName="Trash" guiX="506" guiY="122" id="TRASH1" type="TRASH"/>
+<Node dataPolicy="lenient" fileURL="${DATAIN_DIR}/CulturalSpace.csv" guiName="UniversalDataReader" guiX="232" guiY="110" id="UNIVERSAL_DATA_READER" trim="true" type="DATA_READER"/>
+<Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge0" inPort="Port 0 (in)" metadata="Metadata1" outPort="Port 0 (out)" toNode="TRASH:0"/>
+<Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata0" outPort="Port 0 (output)" toNode="TRASH1:0"/>
+</Phase>
+</Graph>
