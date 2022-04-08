@@ -106,9 +106,8 @@
 <Field name="CulturalSpaces" type="integer"/>
 </Record>
 </Metadata>
-<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection1" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
-<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="NewConnection" type="JDBC" user="root"/>
 <GraphParameters>
 <GraphParameterFile fileURL="workspace.prm"/>
 </GraphParameters>
@@ -122,8 +121,7 @@
 <attr name="text"><![CDATA[*Extract Neighborhood Data from CulturalSPaces CSV*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="510" x="147" y="85">
-<attr name="text"><![CDATA[h2. *TRANSFORM*
-]]></attr>
+<attr name="text"><![CDATA[h2. *TRANSFORM*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="275" id="Note4" textColor="444444" width="388" x="147" y="248">
 <attr name="text"><![CDATA[h6. Filtered Null Neighborhood Rows  and
@@ -132,6 +130,21 @@ h6. each Neighborhood]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="379" id="Note5" textColor="444444" width="180" x="477" y="144">
 <attr name="text"><![CDATA[h6. Join by Neighborhood]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="C1E6FF" folded="false" fontSize="large" height="442" id="Note6" textColor="444444" width="155" x="700" y="83">
+<attr name="text"><![CDATA[h2. LOAD
+
+
+
+
+
+
+
+
+
+
+
+*Load joined data into MySQL Data Warehouse Table*]]></attr>
 </RichTextNote>
 <Dictionary/>
 </Global>
@@ -156,7 +169,7 @@ INNER JOIN ListingRating
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata1" outPort="Port 0 (output)" toNode="FILTER1:0"/>
 </Phase>
 <Phase number="1">
-<Node dbConnection="JDBC2" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="745" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
+<Node dbConnection="JDBC2" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="714" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
 <Node guiName="ExtHashJoin" guiX="513" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
