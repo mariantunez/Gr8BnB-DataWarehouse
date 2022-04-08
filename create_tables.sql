@@ -22,7 +22,7 @@ CREATE TABLE CulturalSpaces (
     HostID INT,
     Neighborhood VARCHAR(255),
     CulturalSpacesInNeighborhood INT,
-    LocationRating DECIMAL,
+    LocationRating DECIMAL(2,1),
     CONSTRAINT pk_CulturalSpaces_CulturalSpaceID PRIMARY KEY (CulturalSpaceID)
 );
 
