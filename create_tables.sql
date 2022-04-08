@@ -16,9 +16,15 @@ DROP TABLE IF EXISTS HomePriceIndex;
 
 
 # Create Table CulturalSpaces
--- CREATE TABLE CulturalSpaces (
--- 	
--- );
+CREATE TABLE CulturalSpaces (
+	CulturalSpaceID INT AUTO_INCREMENT,
+    ListingID INT,
+    HostID INT,
+    Neighborhood VARCHAR(255),
+    CulturalSpacesInNeighborhood INT,
+    LocationRating DECIMAL,
+    CONSTRAINT pk_CulturalSpaces_CulturalSpaceID PRIMARY KEY (CulturalSpaceID)
+);
 
 
 
