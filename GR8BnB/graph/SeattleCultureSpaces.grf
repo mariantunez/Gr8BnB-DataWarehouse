@@ -255,7 +255,7 @@ FROM
     GROUP BY Neighborhood) AS NeighborhoodAverageRating
 ON CulturalSpaces.Neighborhood = NeighborhoodAverageRating.Neighborhood
 GROUP BY Neighborhood, CulturalSpacesCount, AverageLocationRating
-ORDER BY CulturalSpacesCount, AverageLocationRating;]]></attr>
+ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
 </Node>
 <Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1167" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -296,7 +296,7 @@ ORDER BY CulturalSpacesCount, AverageLocationRating;]]></attr>
 <attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Count(ListingID) AS NumberOfListings, CulturalSpacesInNeighborhood
 FROM CulturalSpaces
 GROUP BY Neighborhood, CulturalSpacesInNeighborhood
-ORDER BY CulturalSpacesInNeighborhood;]]></attr>
+ORDER BY NumberOfListings DESC;]]></attr>
 </Node>
 <Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1167" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
