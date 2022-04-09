@@ -121,8 +121,9 @@
 </Record>
 </Metadata>
 <Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="CamilleLocalConnection" password="password" type="JDBC" user="root"/>
-<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" password="password" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC3" jdbcSpecific="MYSQL" name="MarisolLocalConnection" type="JDBC" user="root"/>
 <GraphParameters>
 <GraphParameterFile fileURL="workspace.prm"/>
 </GraphParameters>
@@ -135,18 +136,18 @@
 <RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="189" id="Note2" textColor="444444" width="171" x="-84" y="308">
 <attr name="text"><![CDATA[*Extract Neighborhood Data from CulturalSpaces CSV*]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="510" x="147" y="85">
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="490" x="147" y="85">
 <attr name="text"><![CDATA[h2. *TRANSFORM*]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="275" id="Note4" textColor="444444" width="388" x="147" y="248">
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="240" id="Note4" textColor="444444" width="388" x="147" y="283">
 <attr name="text"><![CDATA[h6. Filtered Null Neighborhood Rows  and
 h6. Aggregate Cultural Spaces Count by 
 h6. each Neighborhood]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="379" id="Note5" textColor="444444" width="180" x="477" y="144">
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="379" id="Note5" textColor="444444" width="160" x="477" y="144">
 <attr name="text"><![CDATA[h6. Join by Neighborhood]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="C1E6FF" folded="false" fontSize="large" height="442" id="Note6" textColor="444444" width="155" x="700" y="83">
+<RichTextNote backgroundColor="C1E6FF" folded="false" fontSize="large" height="442" id="Note6" textColor="444444" width="155" x="676" y="83">
 <attr name="text"><![CDATA[h2. LOAD
 
 
@@ -161,7 +162,7 @@ h6. each Neighborhood]]></attr>
 
 *Load joined data into MySQL Data Warehouse Table*]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="EEDDF1" folded="false" fontSize="large" height="438" id="Note7" textColor="444444" width="454" x="905" y="85">
+<RichTextNote backgroundColor="EEDDF1" folded="false" fontSize="large" height="438" id="Note7" textColor="444444" width="388" x="862" y="85">
 <attr name="text"><![CDATA[h2. WRITE
 
 
@@ -189,7 +190,7 @@ h6. each Neighborhood]]></attr>
 <Dictionary/>
 </Global>
 <Phase number="0">
-<Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="360" guiY="338" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CulturalSpaces:=count();" sorted="false" type="AGGREGATE"/>
+<Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="338" guiY="380" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CulturalSpaces:=count();" sorted="false" type="AGGREGATE"/>
 <Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="-66" guiY="201" id="DATABASE_READER" type="DB_INPUT_TABLE">
 <attr name="sqlQuery"><![CDATA[Select Listing.ID, Listing.HostID, Neighborhood.NeighborhoodGroup, ListingRating.Score
 FROM Listing
@@ -198,7 +199,7 @@ INNER JOIN Neighborhood
 INNER JOIN ListingRating
 	ON ListingRating.ListingID = Listing.ID AND ListingRating.ScoreType = 'Location']]></attr>
 </Node>
-<Node guiName="Filter" guiX="182" guiY="338" id="FILTER1" type="EXT_FILTER">
+<Node guiName="Filter" guiX="167" guiY="380" id="FILTER1" type="EXT_FILTER">
 <attr name="filterExpression"><![CDATA[//#CTL2
 !isnull($in.0.Neighborhood) ]]></attr>
 </Node>
@@ -209,8 +210,8 @@ INNER JOIN ListingRating
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata1" outPort="Port 0 (output)" toNode="FILTER1:0"/>
 </Phase>
 <Phase number="1">
-<Node dbConnection="JDBC1" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="714" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
-<Node guiName="ExtHashJoin" guiX="513" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" type="EXT_HASH_JOIN">
+<Node dbConnection="JDBC3" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="690" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
+<Node guiName="ExtHashJoin" guiX="493" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
 // Transforms input record into output record.
@@ -246,7 +247,7 @@ function integer transform() {
 <Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge0" inPort="Port 0 (in)" metadata="Metadata4" outPort="Port 0 (out)" toNode="DATABASE_WRITER:0"/>
 </Phase>
 <Phase number="2">
-<Node dataPolicy="strict" dbConnection="JDBC1" guiName="DatabaseReader" guiX="934" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
+<Node dataPolicy="strict" dbConnection="JDBC3" guiName="DatabaseReader" guiX="891" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
 <attr name="sqlQuery"><![CDATA[SELECT CulturalSpaces.Neighborhood, AverageLocationRating, CulturalSpacesInNeighborhood AS CulturalSpacesCount
 FROM
 	CulturalSpaces LEFT OUTER JOIN
@@ -257,7 +258,7 @@ ON CulturalSpaces.Neighborhood = NeighborhoodAverageRating.Neighborhood
 GROUP BY Neighborhood, CulturalSpacesCount, AverageLocationRating
 ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
 </Node>
-<Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1167" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping>
     <globalAttributes>
@@ -292,13 +293,13 @@ ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
 <Edge fromNode="DATABASE_READER1:0" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 0 (input)" metadata="Metadata3" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER:0"/>
 </Phase>
 <Phase number="3">
-<Node dbConnection="JDBC1" guiName="DatabaseReader" guiX="934" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
+<Node dbConnection="JDBC3" guiName="DatabaseReader" guiX="891" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
 <attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Count(ListingID) AS NumberOfListings, CulturalSpacesInNeighborhood
 FROM CulturalSpaces
 GROUP BY Neighborhood, CulturalSpacesInNeighborhood
 ORDER BY NumberOfListings DESC;]]></attr>
 </Node>
-<Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1167" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping>
     <globalAttributes>
