@@ -83,6 +83,20 @@
 <Field eofAsDelimiter="true" label="Longitude" name="Longitude" type="decimal"/>
 </Record>
 </Metadata>
+<Metadata id="Metadata3">
+<Record fieldDelimiter="|" name="Hypothesis1Data" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field length="25" name="LocationRating" type="decimal"/>
+<Field name="CulturalSpacesInNeighborhood" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata6">
+<Record fieldDelimiter="|" name="Hypothesis2Data" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="NumberOfListings" type="long"/>
+<Field name="CulturalSpacesInNeighborhood" type="integer"/>
+</Record>
+</Metadata>
 <Metadata id="Metadata4">
 <Record fieldDelimiter="|" name="Joined" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
 <Field name="ListingID" trim="true" type="integer"/>
@@ -106,7 +120,8 @@
 <Field name="CulturalSpaces" type="integer"/>
 </Record>
 </Metadata>
-<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="CamilleLocalConnection" password="password" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" password="password" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
 <GraphParameters>
 <GraphParameterFile fileURL="workspace.prm"/>
@@ -115,10 +130,10 @@
 <attr name="text"><![CDATA[h2. *EXTRACT*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="146" id="Note1" textColor="444444" width="171" x="-84" y="144">
-<attr name="text"><![CDATA[*Extract Listing Data From ASW Rds*]]></attr>
+<attr name="text"><![CDATA[*Extract Listing Data From AWS Rds*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="189" id="Note2" textColor="444444" width="171" x="-84" y="308">
-<attr name="text"><![CDATA[*Extract Neighborhood Data from CulturalSPaces CSV*]]></attr>
+<attr name="text"><![CDATA[*Extract Neighborhood Data from CulturalSpaces CSV*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="510" x="147" y="85">
 <attr name="text"><![CDATA[h2. *TRANSFORM*]]></attr>
@@ -146,6 +161,28 @@ h6. each Neighborhood]]></attr>
 
 *Load joined data into MySQL Data Warehouse Table*]]></attr>
 </RichTextNote>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note7" textColor="444444" width="454" x="885" y="85">
+<attr name="text"><![CDATA[h2. WRITE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Write data to an XLSX file to perform data analysis.*]]></attr>
+</RichTextNote>
 <Dictionary/>
 </Global>
 <Phase number="0">
@@ -169,7 +206,7 @@ INNER JOIN ListingRating
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata1" outPort="Port 0 (output)" toNode="FILTER1:0"/>
 </Phase>
 <Phase number="1">
-<Node dbConnection="JDBC2" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="714" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
+<Node dbConnection="JDBC1" dbTable="CulturalSpaces" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="714" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
 <Node guiName="ExtHashJoin" guiX="513" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
@@ -204,5 +241,92 @@ function integer transform() {
 ]]></attr>
 </Node>
 <Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge0" inPort="Port 0 (in)" metadata="Metadata4" outPort="Port 0 (out)" toNode="DATABASE_WRITER:0"/>
+</Phase>
+<Phase number="2">
+<Node dataPolicy="strict" dbConnection="JDBC1" guiName="DatabaseReader" guiX="914" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT CulturalSpaces.Neighborhood, AverageLocationRating, CulturalSpacesInNeighborhood AS CulturalSpacesCount
+FROM
+	CulturalSpaces LEFT OUTER JOIN
+    (SELECT Neighborhood, AVG(LocationRating) AS AverageLocationRating
+	FROM CulturalSpaces
+    GROUP BY Neighborhood) AS NeighborhoodAverageRating
+ON CulturalSpaces.Neighborhood = NeighborhoodAverageRating.Neighborhood
+GROUP BY Neighborhood, CulturalSpacesCount, AverageLocationRating
+ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
+</Node>
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1147" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+    <globalAttributes>
+        <orientation>VERTICAL</orientation>
+        <step>1</step>
+        <writeHeader>true</writeHeader>
+    </globalAttributes>
+    <defaultSkip>1</defaultSkip>
+    <headerGroups>
+        <headerGroup skip="1">
+            <cloverField>Neighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="A1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>LocationRating</cloverField>
+            <headerRanges>
+                <headerRange begin="B1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="C1"/>
+            </headerRanges>
+        </headerGroup>
+    </headerGroups>
+</mapping>
+]]></attr>
+</Node>
+<Edge fromNode="DATABASE_READER1:0" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 0 (input)" metadata="Metadata3" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER:0"/>
+</Phase>
+<Phase number="3">
+<Node dbConnection="JDBC1" guiName="DatabaseReader" guiX="914" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Count(ListingID) AS NumberOfListings, CulturalSpacesInNeighborhood
+FROM CulturalSpaces
+GROUP BY Neighborhood, CulturalSpacesInNeighborhood
+ORDER BY NumberOfListings DESC;]]></attr>
+</Node>
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="/Users/camille/clover-dx-workspace/Gr8BnB-DataWarehouse/GR8BnB/data-out/hypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1147" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+    <globalAttributes>
+        <orientation>VERTICAL</orientation>
+        <step>1</step>
+        <writeHeader>true</writeHeader>
+    </globalAttributes>
+    <defaultSkip>1</defaultSkip>
+    <headerGroups>
+        <headerGroup skip="1">
+            <cloverField>Neighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="A1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>NumberOfListings</cloverField>
+            <headerRanges>
+                <headerRange begin="B1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="C1"/>
+            </headerRanges>
+        </headerGroup>
+    </headerGroups>
+</mapping>
+]]></attr>
+</Node>
+<Edge fromNode="DATABASE_READER2:0" guiBendpoints="" guiRouter="Manhattan" id="Edge3" inPort="Port 0 (input)" metadata="Metadata6" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER1:0"/>
 </Phase>
 </Graph>
