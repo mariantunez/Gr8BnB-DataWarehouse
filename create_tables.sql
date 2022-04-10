@@ -29,6 +29,9 @@ CREATE TABLE CulturalSpaces (
 
 
 # Create HomePriceIndex
--- CREATE TABLE HomePriceIndex (
---     
--- );
+CREATE TABLE HomePriceIndex (
+	HomePriceIndexId INT AUTO_INCREMENT,
+    Date TIMESTAMP,
+    RentalPrice DECIMAL(12,2),
+    HomePriceIndex Decimal(12,2)
+);
