@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Graph author="marisolantunez" created="Thu Apr 07 06:46:40 PDT 2022" guiVersion="5.14.1.2" id="1649365797117" licenseCode="CLP1DNXAXX19317363EX" name="SeattleCultureSpaces" showComponentDetails="true">
+<Graph author="marisolantunez" created="Thu Apr 07 06:46:40 PDT 2022" guiVersion="5.14.0.13" id="1649365797117" licenseCode="CLP1DNXAXX19317363EX" name="SeattleCultureSpaces" showComponentDetails="true">
 <Global>
 <Metadata id="Metadata9">
 <Record fieldDelimiter="," label="CrimeData_2021-Present" name="CrimeCsvSchema" previewAttachment="${DATAIN_DIR}/CrimeData_2021-Present.csv" previewAttachmentCharset="UTF-8" recordDelimiter="\r\n" skipSourceRows="1" type="delimited">
@@ -106,6 +106,13 @@
 <Field eofAsDelimiter="true" label="Longitude" name="Longitude" type="decimal"/>
 </Record>
 </Metadata>
+<Metadata id="Metadata11">
+<Record fieldDelimiter="|" name="FilteredCrimeData" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="Rating" type="decimal"/>
+<Field name="CrimeCount" type="integer"/>
+</Record>
+</Metadata>
 <Metadata id="Metadata3">
 <Record fieldDelimiter="|" name="Hypothesis1Data" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
 <Field name="Neighborhood" type="string"/>
@@ -172,10 +179,10 @@
 <RichTextNote backgroundColor="ECF0F0" folded="false" fontSize="large" height="438" id="Note0" textColor="000000" width="201" x="-101" y="85">
 <attr name="text"><![CDATA[h2. *EXTRACT*]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="146" id="Note1" textColor="444444" width="171" x="-84" y="144">
-<attr name="text"><![CDATA[*Extract Average Score for Neighborhoods*]]></attr>
+<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="163" id="Note1" textColor="444444" width="171" x="-84" y="137">
+<attr name="text"><![CDATA[*Extract Listings and theit Average Location Score for Neighborhoods*]]></attr>
 </RichTextNote>
-<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="189" id="Note2" textColor="444444" width="171" x="-84" y="308">
+<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="175" id="Note2" textColor="444444" width="171" x="-84" y="322">
 <attr name="text"><![CDATA[*Extract Crime Data from CSV*]]></attr>
 </RichTextNote>
 <RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="490" x="147" y="85">
@@ -221,11 +228,21 @@
 <RichTextNote backgroundColor="FFBF59" folded="false" fontSize="large" height="45" id="Note8" textColor="000000" width="336" x="453" y="23">
 <attr name="text"><![CDATA[h3. Crime Data ETL Workflow]]></attr>
 </RichTextNote>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="215" id="Note4" textColor="444444" width="490" x="147" y="308">
+<attr name="text"><![CDATA[h6. Aggregate Crime Count
+h6. by each Neighborhood]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="379" id="Note5" textColor="444444" width="309" x="328" y="144">
+<attr name="text"><![CDATA[h6. Join by Neighborhood]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="191" id="Note9" textColor="444444" width="151" x="486" y="332">
+<attr name="text"><![CDATA[h6. Filter Null Crime rows]]></attr>
+</RichTextNote>
 <Dictionary/>
 </Global>
 <Phase number="0">
-<Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="208" guiY="380" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CrimeCount:=count();" sorted="false" type="AGGREGATE"/>
-<Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="-73" guiY="201" id="DATABASE_READER" type="DB_INPUT_TABLE">
+<Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="167" guiY="380" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CrimeCount:=count();" sorted="false" type="AGGREGATE"/>
+<Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="-74" guiY="213" id="DATABASE_READER" type="DB_INPUT_TABLE">
 <attr name="sqlQuery"><![CDATA[SELECT Neighborhood.NeighborhoodGroup AS Neighborhood, AVG(ListingRating.Score) AS Score
 FROM Listing
 INNER JOIN Neighborhood 
@@ -234,7 +251,7 @@ INNER JOIN ListingRating
 	ON ListingRating.ListingID = Listing.ID AND ListingRating.ScoreType = 'Location' AND ListingRating.Score IS NOT NULL
 GROUP BY Neighborhood.NeighborhoodGroup]]></attr>
 </Node>
-<Node guiName="ExtHashJoin" guiX="476" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" joinType="leftOuter" type="EXT_HASH_JOIN">
+<Node guiName="ExtHashJoin" guiX="336" guiY="213" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" joinType="leftOuter" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
 // Transforms input record into output record.
@@ -265,10 +282,15 @@ function integer transform() {
 // function string getMessage() {}
 ]]></attr>
 </Node>
+<Node guiName="Filter" guiX="486" guiY="380" id="FILTER" type="EXT_FILTER">
+<attr name="filterExpression"><![CDATA[//#CTL2
+!isnull($in.0.CrimeCount)]]></attr>
+</Node>
 <Node dataPolicy="lenient" fileURL="${DATAIN_DIR}/CrimeData_2021-Present.csv" guiName="UniversalDataReader" guiX="-74" guiY="380" id="UNIVERSAL_DATA_READER" trim="true" type="DATA_READER"/>
 <Edge fromNode="AGGREGATE:0" guiBendpoints="" guiRouter="Manhattan" id="Edge7" inPort="Port 1 (slave)" metadata="Metadata10" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:1"/>
 <Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge6" inPort="Port 0 (driver)" metadata="Metadata8" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:0"/>
-<Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge8" inPort="Port 0 (in)" metadata="Metadata7" outPort="Port 0 (out)" toNode="TRASH:0"/>
+<Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge8" inPort="Port 0 (in)" metadata="Metadata7" outPort="Port 0 (out)" toNode="FILTER:0"/>
+<Edge fromNode="FILTER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge4" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 0 (accepted)" toNode="TRASH:0"/>
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata9" outPort="Port 0 (output)" toNode="AGGREGATE:0"/>
 </Phase>
 <Phase number="1">
