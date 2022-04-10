@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="marisolantunez" created="Thu Apr 07 06:46:40 PDT 2022" guiVersion="5.14.1.2" id="1649365797117" licenseCode="CLP1DNXAXX19317363EX" name="SeattleCultureSpaces" showComponentDetails="true">
+<Global>
+<Metadata id="Metadata9">
+<Record fieldDelimiter="," label="CrimeData_2021-Present" name="CrimeCsvSchema" previewAttachment="${DATAIN_DIR}/CrimeData_2021-Present.csv" previewAttachmentCharset="UTF-8" recordDelimiter="\r\n" skipSourceRows="1" type="delimited">
+<Field label="Report Number" name="Report_Number" type="string"/>
+<Field label="Offense ID" name="Offense_ID" type="long"/>
+<Field label="Offense Start DateTime" name="Offense_Start_DateTime" type="string"/>
+<Field label="Offense End DateTime" name="Offense_End_DateTime" type="string"/>
+<Field format="dd/MM/yy" label="Report DateTime" name="Report_DateTime" type="date"/>
+<Field label="Group A B" name="Group_A_B" type="string"/>
+<Field label="Crime Against Category" name="Crime_Against_Category" type="string"/>
+<Field label="Offense Parent Group" name="Offense_Parent_Group" type="string"/>
+<Field label="Offense" name="Offense" type="string"/>
+<Field label="Offense Code" name="Offense_Code" type="string"/>
+<Field label="Precinct" name="Precinct" type="string"/>
+<Field label="Sector" name="Sector" type="string"/>
+<Field label="Beat" name="Beat" type="string"/>
+<Field label="Neighborhood" name="Neighborhood" type="string"/>
+<Field label="100 Block Address" name="_100_Block_Address" type="string"/>
+<Field label="Longitude" name="Longitude" type="number"/>
+<Field label="Latitude" name="Latitude" type="number"/>
+<Field name="_" type="string"/>
+<Field eofAsDelimiter="true" name="__1" type="string"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata1">
+<Record fieldDelimiter="," name="CulturalSpace" previewAttachment="${DATAIN_DIR}/CulturalSpace.csv" previewAttachmentCharset="UTF-8" quoteChar="both" quotedStrings="true" recordDelimiter="\n" skipSourceRows="1" type="delimited">
+<Field label="﻿Name" name="SpaceName" type="string"/>
+<Field label="Phone" name="Phone" type="string"/>
+<Field label="URL" name="URL" type="string"/>
+<Field label="Square Feet Total" name="Square_Feet_Total" type="string"/>
+<Field label="Neighborhood" name="Neighborhood" type="string"/>
+<Field label="Organization Type" name="Organization_Type" type="string"/>
+<Field label="Dominant Discipline" name="Discipline" type="string"/>
+<Field label="Year of Occupation" name="Year_of_Occupation" type="string"/>
+<Field label="Rent vs Own" name="Rent_vs_Own" type="string"/>
+<Field label="Age of Current Building" name="Age_of_Current_Building" type="string"/>
+<Field label="Length of Lease (Date)" name="Length_of_Lease_Date" type="string"/>
+<Field label=" Year Organization Founded" name="Year_Organization_Founded" type="string"/>
+<Field label="Number of Past Facilities" name="Number_of_Past_Facilities" type="string"/>
+<Field label="Stages and Theaters" name="Stages_and_Theaters" type="string"/>
+<Field label="Stage &amp; Theater Seats " name="Stage_Theater_Seats" type="string"/>
+<Field label="Gallery Space" name="Gallery_Space" type="string"/>
+<Field label="Gallery Square Feet" name="Gallery_Square_Feet" type="string"/>
+<Field label="ADA Compliant" name="ADA_Compliant" type="string"/>
+<Field label="Available Parking" name="Available_Parking" type="string"/>
+<Field label="Street Presence" name="Street_Presence" type="boolean"/>
+<Field label="Rental Space " name="Rental_Space" type="string"/>
+<Field label="Alcohol Sales" name="Alcohol_Sales" type="string"/>
+<Field label="Organization Mission" name="Organization_Mission" type="string"/>
+<Field label="Funded by A&amp;C" name="Funded_by_A_C" type="string"/>
+<Field label="Funded by 4Culture" name="Funded_by_4Culture" type="string"/>
+<Field label="Stability Index (5=very stable, 1=very uncertain)" name="Stability_Index_5_very_stable_1_very_uncertain" type="string"/>
+<Field label="Control Index (5=very in control, 1 = very out of control) " name="Control_Index_5_very_in_control_1_very_out_of_control" type="string"/>
+<Field label="Constituency over 50% one race" name="Constituency_over_50_one_race" type="string"/>
+<Field label="Specific Demographics and Community" name="Specific_Demographics_and_Community" type="string"/>
+<Field label="Organization Leadership" name="Organization_Leadership" type="string"/>
+<Field label="Organization Artists" name="Organization_Artists" type="string"/>
+<Field label="Closed Date" name="Closed_Date" type="string"/>
+<Field label="Closed?" name="Closed" type="boolean"/>
+<Field label="Address" name="Address" type="string"/>
+<Field label="Location" name="Location" type="string"/>
+<Field label="Latitude" name="Latitude" type="decimal"/>
+<Field eofAsDelimiter="true" label="Longitude" name="Longitude" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata2">
+<Record fieldDelimiter="," name="Filtered" previewAttachment="${DATAIN_DIR}/CulturalSpace.csv" previewAttachmentCharset="UTF-8" quoteChar="both" quotedStrings="true" recordDelimiter="\n" skipSourceRows="1" type="delimited">
+<Field label="﻿Name" name="SpaceName" type="string"/>
+<Field label="Phone" name="Phone" type="string"/>
+<Field label="URL" name="URL" type="string"/>
+<Field label="Square Feet Total" name="Square_Feet_Total" type="string"/>
+<Field label="Neighborhood" name="Neighborhood" type="string"/>
+<Field label="Organization Type" name="Organization_Type" type="string"/>
+<Field label="Dominant Discipline" name="Discipline" type="string"/>
+<Field label="Year of Occupation" name="Year_of_Occupation" type="string"/>
+<Field label="Rent vs Own" name="Rent_vs_Own" type="string"/>
+<Field label="Age of Current Building" name="Age_of_Current_Building" type="string"/>
+<Field label="Length of Lease (Date)" name="Length_of_Lease_Date" type="string"/>
+<Field label=" Year Organization Founded" name="Year_Organization_Founded" type="string"/>
+<Field label="Number of Past Facilities" name="Number_of_Past_Facilities" type="string"/>
+<Field label="Stages and Theaters" name="Stages_and_Theaters" type="string"/>
+<Field label="Stage &amp; Theater Seats " name="Stage_Theater_Seats" type="string"/>
+<Field label="Gallery Space" name="Gallery_Space" type="string"/>
+<Field label="Gallery Square Feet" name="Gallery_Square_Feet" type="string"/>
+<Field label="ADA Compliant" name="ADA_Compliant" type="string"/>
+<Field label="Available Parking" name="Available_Parking" type="string"/>
+<Field label="Street Presence" name="Street_Presence" type="boolean"/>
+<Field label="Rental Space " name="Rental_Space" type="string"/>
+<Field label="Alcohol Sales" name="Alcohol_Sales" type="string"/>
+<Field label="Organization Mission" name="Organization_Mission" type="string"/>
+<Field label="Funded by A&amp;C" name="Funded_by_A_C" type="string"/>
+<Field label="Funded by 4Culture" name="Funded_by_4Culture" type="string"/>
+<Field label="Stability Index (5=very stable, 1=very uncertain)" name="Stability_Index_5_very_stable_1_very_uncertain" type="string"/>
+<Field label="Control Index (5=very in control, 1 = very out of control) " name="Control_Index_5_very_in_control_1_very_out_of_control" type="string"/>
+<Field label="Constituency over 50% one race" name="Constituency_over_50_one_race" type="string"/>
+<Field label="Specific Demographics and Community" name="Specific_Demographics_and_Community" type="string"/>
+<Field label="Organization Leadership" name="Organization_Leadership" type="string"/>
+<Field label="Organization Artists" name="Organization_Artists" type="string"/>
+<Field label="Closed Date" name="Closed_Date" type="string"/>
+<Field label="Closed?" name="Closed" type="boolean"/>
+<Field label="Address" name="Address" type="string"/>
+<Field label="Location" name="Location" type="string"/>
+<Field label="Latitude" name="Latitude" type="decimal"/>
+<Field eofAsDelimiter="true" label="Longitude" name="Longitude" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata3">
+<Record fieldDelimiter="|" name="Hypothesis1Data" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field length="25" name="LocationRating" type="decimal"/>
+<Field name="CulturalSpacesInNeighborhood" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata6">
+<Record fieldDelimiter="|" name="Hypothesis2Data" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="NumberOfListings" type="long"/>
+<Field name="CulturalSpacesInNeighborhood" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata4">
+<Record fieldDelimiter="|" name="Joined" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="ListingID" trim="true" type="integer"/>
+<Field name="HostID" trim="true" type="integer"/>
+<Field name="Neighborhood" type="string"/>
+<Field default="0" name="CulturalSpacesInNeighborhood" trim="true" type="integer"/>
+<Field length="2" name="LocationRating" scale="1" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata7">
+<Record fieldDelimiter="|" name="JoinedCrimeData" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="Rating" type="decimal"/>
+<Field name="CrimeCount" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata0">
+<Record fieldDelimiter=";" name="Listing" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="ListingID" size="10" type="integer"/>
+<Field name="HostID" size="10" type="integer"/>
+<Field name="Neighborhood" size="255" type="string"/>
+<Field length="2" name="LocationRating" scale="1" size="3" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata8">
+<Record fieldDelimiter=";" name="NeighborhoodAvgScore" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" size="255" type="string"/>
+<Field length="6" name="Score" scale="5" size="7" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata10">
+<Record fieldDelimiter="|" name="NeighborhoodCrimeCount" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="CrimeCount" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata5">
+<Record fieldDelimiter="|" name="Neighborhoods_Discipline_Counts" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" type="string"/>
+<Field name="CulturalSpaces" type="integer"/>
+</Record>
+</Metadata>
+<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="CamilleLocalConnection" password="password" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC3" jdbcSpecific="MYSQL" name="MarisolLocalConnection" type="JDBC" user="root"/>
+<GraphParameters>
+<GraphParameterFile fileURL="workspace.prm"/>
+</GraphParameters>
+<RichTextNote backgroundColor="ECF0F0" folded="false" fontSize="large" height="438" id="Note0" textColor="000000" width="201" x="-101" y="85">
+<attr name="text"><![CDATA[h2. *EXTRACT*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="146" id="Note1" textColor="444444" width="171" x="-84" y="144">
+<attr name="text"><![CDATA[*Extract Average Score for Neighborhoods*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="DEF4AB" folded="false" fontSize="medium" height="189" id="Note2" textColor="444444" width="171" x="-84" y="308">
+<attr name="text"><![CDATA[*Extract Crime Data from CSV*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="large" height="438" id="Note3" textColor="444444" width="490" x="147" y="85">
+<attr name="text"><![CDATA[h2. *TRANSFORM*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="C1E6FF" enabled="disabled" folded="false" fontSize="large" height="442" id="Note6" textColor="444444" width="155" x="676" y="83">
+<attr name="text"><![CDATA[h2. LOAD
+
+
+
+
+
+
+
+
+
+
+
+*Load joined data into MySQL Data Warehouse Table*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="EEDDF1" enabled="disabled" folded="false" fontSize="large" height="438" id="Note7" textColor="444444" width="388" x="862" y="85">
+<attr name="text"><![CDATA[h2. WRITE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Write data to an XLSX file to perform data analysis.*]]></attr>
+</RichTextNote>
+<RichTextNote backgroundColor="FFBF59" folded="false" fontSize="large" height="45" id="Note8" textColor="000000" width="336" x="453" y="23">
+<attr name="text"><![CDATA[h3. Crime Data ETL Workflow]]></attr>
+</RichTextNote>
+<Dictionary/>
+</Global>
+<Phase number="0">
+<Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="208" guiY="380" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CrimeCount:=count();" sorted="false" type="AGGREGATE"/>
+<Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="-73" guiY="201" id="DATABASE_READER" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood.NeighborhoodGroup AS Neighborhood, AVG(ListingRating.Score) AS Score
+FROM Listing
+INNER JOIN Neighborhood 
+	ON Listing.Neighborhood = Neighborhood.Neighborhood
+INNER JOIN ListingRating
+	ON ListingRating.ListingID = Listing.ID AND ListingRating.ScoreType = 'Location' AND ListingRating.Score IS NOT NULL
+GROUP BY Neighborhood.NeighborhoodGroup]]></attr>
+</Node>
+<Node guiName="ExtHashJoin" guiX="476" guiY="201" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" joinType="leftOuter" type="EXT_HASH_JOIN">
+<attr name="transform"><![CDATA[//#CTL2
+
+// Transforms input record into output record.
+function integer transform() {
+	$out.0.Neighborhood = $in.0.Neighborhood;
+	$out.0.Rating = $in.0.Score;
+	$out.0.CrimeCount = $in.1.CrimeCount;
+
+	return ALL;
+}
+
+// Called during component initialization.
+// function boolean init() {}
+
+// Called during each graph run before the transform is executed. May be used to allocate and initialize resources
+// required by the transform. All resources allocated within this method should be released
+// by the postExecute() method.
+// function void preExecute() {}
+
+// Called only if transform() throws an exception.
+// function integer transformOnError(string errorMessage, string stackTrace) {}
+
+// Called during each graph run after the entire transform was executed. Should be used to free any resources
+// allocated within the preExecute() method.
+// function void postExecute() {}
+
+// Called to return a user-defined error message when an error occurs.
+// function string getMessage() {}
+]]></attr>
+</Node>
+<Node dataPolicy="lenient" fileURL="${DATAIN_DIR}/CrimeData_2021-Present.csv" guiName="UniversalDataReader" guiX="-74" guiY="380" id="UNIVERSAL_DATA_READER" trim="true" type="DATA_READER"/>
+<Edge fromNode="AGGREGATE:0" guiBendpoints="" guiRouter="Manhattan" id="Edge7" inPort="Port 1 (slave)" metadata="Metadata10" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:1"/>
+<Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge6" inPort="Port 0 (driver)" metadata="Metadata8" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:0"/>
+<Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge8" inPort="Port 0 (in)" metadata="Metadata7" outPort="Port 0 (out)" toNode="TRASH:0"/>
+<Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata9" outPort="Port 0 (output)" toNode="AGGREGATE:0"/>
+</Phase>
+<Phase number="1">
+<Node dbConnection="JDBC3" dbTable="CulturalSpaces" enabled="disabled" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="690" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
+<Node debugPrint="true" guiName="Trash" guiX="690" guiY="551" id="TRASH" type="TRASH"/>
+</Phase>
+<Phase number="2">
+<Node dataPolicy="strict" dbConnection="JDBC3" enabled="disabled" guiName="DatabaseReader" guiX="891" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT CulturalSpaces.Neighborhood, AverageLocationRating, CulturalSpacesInNeighborhood AS CulturalSpacesCount
+FROM
+	CulturalSpaces LEFT OUTER JOIN
+    (SELECT Neighborhood, AVG(LocationRating) AS AverageLocationRating
+	FROM CulturalSpaces
+    GROUP BY Neighborhood) AS NeighborhoodAverageRating
+ON CulturalSpaces.Neighborhood = NeighborhoodAverageRating.Neighborhood
+GROUP BY Neighborhood, CulturalSpacesCount, AverageLocationRating
+ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
+</Node>
+<Node enabled="disabled" existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+    <globalAttributes>
+        <orientation>VERTICAL</orientation>
+        <step>1</step>
+        <writeHeader>true</writeHeader>
+    </globalAttributes>
+    <defaultSkip>1</defaultSkip>
+    <headerGroups>
+        <headerGroup skip="1">
+            <cloverField>Neighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="A1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>LocationRating</cloverField>
+            <headerRanges>
+                <headerRange begin="B1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="C1"/>
+            </headerRanges>
+        </headerGroup>
+    </headerGroups>
+</mapping>
+]]></attr>
+</Node>
+<Edge fromNode="DATABASE_READER1:0" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 0 (input)" metadata="Metadata3" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER:0"/>
+</Phase>
+<Phase number="3">
+<Node dbConnection="JDBC3" enabled="disabled" guiName="DatabaseReader" guiX="891" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Count(ListingID) AS NumberOfListings, CulturalSpacesInNeighborhood
+FROM CulturalSpaces
+GROUP BY Neighborhood, CulturalSpacesInNeighborhood
+ORDER BY NumberOfListings DESC;]]></attr>
+</Node>
+<Node enabled="disabled" existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+    <globalAttributes>
+        <orientation>VERTICAL</orientation>
+        <step>1</step>
+        <writeHeader>true</writeHeader>
+    </globalAttributes>
+    <defaultSkip>1</defaultSkip>
+    <headerGroups>
+        <headerGroup skip="1">
+            <cloverField>Neighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="A1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>NumberOfListings</cloverField>
+            <headerRanges>
+                <headerRange begin="B1"/>
+            </headerRanges>
+        </headerGroup>
+        <headerGroup skip="1">
+            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <headerRanges>
+                <headerRange begin="C1"/>
+            </headerRanges>
+        </headerGroup>
+    </headerGroups>
+</mapping>
+]]></attr>
+</Node>
+<Edge fromNode="DATABASE_READER2:0" guiBendpoints="" guiRouter="Manhattan" id="Edge3" inPort="Port 0 (input)" metadata="Metadata6" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER1:0"/>
+</Phase>
+</Graph>
