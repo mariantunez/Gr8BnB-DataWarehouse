@@ -171,6 +171,7 @@
 </Metadata>
 <Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="CamilleLocalConnection" password="password" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC4" jdbcSpecific="MYSQL" name="DataWarehouse" password="password" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC3" jdbcSpecific="MYSQL" name="MarisolLocalConnection" type="JDBC" user="root"/>
 <GraphParameters>
@@ -251,6 +252,7 @@ INNER JOIN ListingRating
 	ON ListingRating.ListingID = Listing.ID AND ListingRating.ScoreType = 'Location' AND ListingRating.Score IS NOT NULL
 GROUP BY Neighborhood.NeighborhoodGroup]]></attr>
 </Node>
+<Node dbConnection="JDBC4" dbTable="CrimeData" fieldMap="$Neighborhood:=Neighborhood;$Rating:=Rating;$CrimeCount:=CrimeCount;" guiName="DatabaseWriter" guiX="690" guiY="193" id="DATABASE_WRITER1" type="DB_OUTPUT_TABLE"/>
 <Node guiName="ExtHashJoin" guiX="336" guiY="213" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" joinType="leftOuter" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
@@ -291,10 +293,10 @@ function integer transform() {
 <Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge6" inPort="Port 0 (driver)" metadata="Metadata8" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:0"/>
 <Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge8" inPort="Port 0 (in)" metadata="Metadata7" outPort="Port 0 (out)" toNode="FILTER:0"/>
 <Edge fromNode="FILTER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge4" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 0 (accepted)" toNode="TRASH:0"/>
+<Edge fromNode="FILTER:1" guiBendpoints="" guiRouter="Manhattan" id="Edge5" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 1 (rejected)" toNode="DATABASE_WRITER1:0"/>
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata9" outPort="Port 0 (output)" toNode="AGGREGATE:0"/>
 </Phase>
 <Phase number="1">
-<Node dbConnection="JDBC3" dbTable="CulturalSpaces" enabled="disabled" fieldMap="$ListingID:=ListingID;$HostID:=HostID;$Neighborhood:=Neighborhood;$CulturalSpacesInNeighborhood:=CulturalSpacesInNeighborhood;$LocationRating:=LocationRating;" guiName="DatabaseWriter" guiX="690" guiY="201" id="DATABASE_WRITER" type="DB_OUTPUT_TABLE"/>
 <Node debugPrint="true" guiName="Trash" guiX="690" guiY="551" id="TRASH" type="TRASH"/>
 </Phase>
 <Phase number="2">
