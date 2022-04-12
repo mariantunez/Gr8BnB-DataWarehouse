@@ -9,9 +9,13 @@ DROP TABLE IF EXISTS HomePriceIndex;
 
 
 -- Create Table CrimeData
--- CREATE TABLE CrimeData (
--- 	
--- );
+CREATE TABLE CrimeData (	
+	CrimeDataID INT AUTO_INCREMENT,
+    Neighborhood VARCHAR(255),
+    Rating DECIMAL(3,2),
+    CrimeCount INT,
+    CONSTRAINT pk_CrimeData_CrimeDataID PRIMARY KEY (CrimeDataID)
+ );
 
 
 
