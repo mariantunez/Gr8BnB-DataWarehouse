@@ -24,6 +24,20 @@
 <Field eofAsDelimiter="true" name="__1" type="string"/>
 </Record>
 </Metadata>
+<Metadata id="Metadata13">
+<Record fieldDelimiter=";" name="CrimeData" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" size="255" type="string"/>
+<Field length="2" name="Rating" scale="1" size="3" type="decimal"/>
+<Field name="CrimeCount" size="10" type="integer"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata14">
+<Record fieldDelimiter=";" name="CrimeData2" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" size="255" type="string"/>
+<Field name="NumberOfListings" type="integer"/>
+<Field name="CrimeCount" size="10" type="integer"/>
+</Record>
+</Metadata>
 <Metadata id="Metadata1">
 <Record fieldDelimiter="," name="CulturalSpace" previewAttachment="${DATAIN_DIR}/CulturalSpace.csv" previewAttachmentCharset="UTF-8" quoteChar="both" quotedStrings="true" recordDelimiter="\n" skipSourceRows="1" type="delimited">
 <Field label="﻿Name" name="SpaceName" type="string"/>
@@ -111,6 +125,7 @@
 <Field name="Neighborhood" type="string"/>
 <Field name="Rating" type="decimal"/>
 <Field name="CrimeCount" type="integer"/>
+<Field name="ListingsCount" type="long"/>
 </Record>
 </Metadata>
 <Metadata id="Metadata3">
@@ -137,10 +152,11 @@
 </Record>
 </Metadata>
 <Metadata id="Metadata7">
-<Record fieldDelimiter="|" name="JoinedCrimeData" recordDelimiter="\n" type="delimited">
+<Record fieldDelimiter="|" name="JoinedCrimeData" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
 <Field name="Neighborhood" type="string"/>
 <Field name="Rating" type="decimal"/>
 <Field name="CrimeCount" type="integer"/>
+<Field name="ListingsCount" type="long"/>
 </Record>
 </Metadata>
 <Metadata id="Metadata0">
@@ -149,6 +165,13 @@
 <Field name="HostID" size="10" type="integer"/>
 <Field name="Neighborhood" size="255" type="string"/>
 <Field length="2" name="LocationRating" scale="1" size="3" type="decimal"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata12">
+<Record fieldDelimiter=";" name="Neighborhood" previewAttachmentCharset="UTF-8" recordDelimiter="\n" type="delimited">
+<Field name="Neighborhood" size="255" type="string"/>
+<Field length="6" name="Score" scale="5" size="7" type="decimal"/>
+<Field name="NumberOfListings" size="19" type="long"/>
 </Record>
 </Metadata>
 <Metadata id="Metadata8">
@@ -172,7 +195,9 @@
 <Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC1" jdbcSpecific="MYSQL" name="CamilleLocalConnection" password="password" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC2" jdbcSpecific="MYSQL" name="CulturalSpaceDBWriterConnection" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC4" jdbcSpecific="MYSQL" name="DataWarehouse" password="password" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://localhost:3306/Gr8BnBDataWarehouse" id="JDBC5" jdbcSpecific="MYSQL" name="DataWarehouse_Khaled" password="Optiplex3010." type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC0" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
+<Connection database="MYSQL" dbURL="jdbc:mysql://database-5200project.c9waj8ur4czk.us-west-1.rds.amazonaws.com:3306/Gr8BnBApplication" id="JDBC6" jdbcSpecific="MYSQL" name="Gr8BnBConnection" password="database-5200project" type="JDBC" user="root"/>
 <Connection database="MYSQL" dbURL="jdbc:mysql://127.0.0.1:3306/Gr8BnBDataWarehouse" id="JDBC3" jdbcSpecific="MYSQL" name="MarisolLocalConnection" type="JDBC" user="root"/>
 <GraphParameters>
 <GraphParameterFile fileURL="workspace.prm"/>
@@ -243,8 +268,8 @@ h6. by each Neighborhood]]></attr>
 </Global>
 <Phase number="0">
 <Node aggregateKey="Neighborhood" guiName="Aggregate" guiX="167" guiY="380" id="AGGREGATE" mapping="$Neighborhood:=$Neighborhood;$CrimeCount:=count();" sorted="false" type="AGGREGATE"/>
-<Node dbConnection="JDBC0" guiName="DatabaseReader" guiX="-74" guiY="213" id="DATABASE_READER" type="DB_INPUT_TABLE">
-<attr name="sqlQuery"><![CDATA[SELECT Neighborhood.NeighborhoodGroup AS Neighborhood, AVG(ListingRating.Score) AS Score
+<Node dbConnection="JDBC6" guiName="DatabaseReader" guiX="-74" guiY="213" id="DATABASE_READER" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood.NeighborhoodGroup AS Neighborhood, AVG(ListingRating.Score) AS Score, Count(Listing.ID) As NumberOfListings
 FROM Listing
 INNER JOIN Neighborhood 
 	ON Listing.Neighborhood = Neighborhood.Neighborhood
@@ -252,7 +277,6 @@ INNER JOIN ListingRating
 	ON ListingRating.ListingID = Listing.ID AND ListingRating.ScoreType = 'Location' AND ListingRating.Score IS NOT NULL
 GROUP BY Neighborhood.NeighborhoodGroup]]></attr>
 </Node>
-<Node dbConnection="JDBC4" dbTable="CrimeData" fieldMap="$Neighborhood:=Neighborhood;$Rating:=Rating;$CrimeCount:=CrimeCount;" guiName="DatabaseWriter" guiX="690" guiY="193" id="DATABASE_WRITER1" type="DB_OUTPUT_TABLE"/>
 <Node guiName="ExtHashJoin" guiX="336" guiY="213" id="EXT_HASH_JOIN" joinKey="$Neighborhood=$Neighborhood" joinType="leftOuter" type="EXT_HASH_JOIN">
 <attr name="transform"><![CDATA[//#CTL2
 
@@ -261,6 +285,7 @@ function integer transform() {
 	$out.0.Neighborhood = $in.0.Neighborhood;
 	$out.0.Rating = $in.0.Score;
 	$out.0.CrimeCount = $in.1.CrimeCount;
+	$out.0.ListingsCount = $in.0.NumberOfListings;
 
 	return ALL;
 }
@@ -290,28 +315,22 @@ function integer transform() {
 </Node>
 <Node dataPolicy="lenient" fileURL="${DATAIN_DIR}/CrimeData_2021-Present.csv" guiName="UniversalDataReader" guiX="-74" guiY="380" id="UNIVERSAL_DATA_READER" trim="true" type="DATA_READER"/>
 <Edge fromNode="AGGREGATE:0" guiBendpoints="" guiRouter="Manhattan" id="Edge7" inPort="Port 1 (slave)" metadata="Metadata10" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:1"/>
-<Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge6" inPort="Port 0 (driver)" metadata="Metadata8" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:0"/>
+<Edge fromNode="DATABASE_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge12" inPort="Port 0 (driver)" metadata="Metadata12" outPort="Port 0 (out)" toNode="EXT_HASH_JOIN:0"/>
 <Edge fromNode="EXT_HASH_JOIN:0" guiBendpoints="" guiRouter="Manhattan" id="Edge8" inPort="Port 0 (in)" metadata="Metadata7" outPort="Port 0 (out)" toNode="FILTER:0"/>
-<Edge fromNode="FILTER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge4" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 0 (accepted)" toNode="TRASH:0"/>
-<Edge fromNode="FILTER:1" guiBendpoints="" guiRouter="Manhattan" id="Edge5" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 1 (rejected)" toNode="DATABASE_WRITER1:0"/>
+<Edge fromNode="FILTER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge11" inPort="Port 0 (in)" metadata="Metadata11" outPort="Port 0 (accepted)" toNode="DATABASE_WRITER1:0"/>
 <Edge fromNode="UNIVERSAL_DATA_READER:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata9" outPort="Port 0 (output)" toNode="AGGREGATE:0"/>
 </Phase>
 <Phase number="1">
-<Node debugPrint="true" guiName="Trash" guiX="690" guiY="551" id="TRASH" type="TRASH"/>
+<Node dbConnection="JDBC5" dbTable="CrimeData" fieldMap="$Neighborhood:=Neighborhood;$Rating:=Rating;$CrimeCount:=CrimeCount;$ListingsCount:=ListingsCount;" guiName="DatabaseWriter" guiX="690" guiY="193" id="DATABASE_WRITER1" type="DB_OUTPUT_TABLE"/>
+<Node debugPrint="true" enabled="disabled" guiName="Trash" guiX="690" guiY="551" id="TRASH" type="TRASH"/>
 </Phase>
 <Phase number="2">
-<Node dataPolicy="strict" dbConnection="JDBC3" enabled="disabled" guiName="DatabaseReader" guiX="891" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
-<attr name="sqlQuery"><![CDATA[SELECT CulturalSpaces.Neighborhood, AverageLocationRating, CulturalSpacesInNeighborhood AS CulturalSpacesCount
-FROM
-	CulturalSpaces LEFT OUTER JOIN
-    (SELECT Neighborhood, AVG(LocationRating) AS AverageLocationRating
-	FROM CulturalSpaces
-    GROUP BY Neighborhood) AS NeighborhoodAverageRating
-ON CulturalSpaces.Neighborhood = NeighborhoodAverageRating.Neighborhood
-GROUP BY Neighborhood, CulturalSpacesCount, AverageLocationRating
-ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
+<Node dataPolicy="strict" dbConnection="JDBC5" guiName="DatabaseReader" guiX="876" guiY="201" id="DATABASE_READER1" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Rating, CrimeCount
+FROM CrimeData
+ORDER BY CrimeCount DESC, Rating DESC;]]></attr>
 </Node>
-<Node enabled="disabled" existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="201" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CrimeDataHypothesis1.xlsx" guiName="SpreadsheetDataWriter" guiX="1075" guiY="189" id="SPREADSHEET_DATA_WRITER" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping>
     <globalAttributes>
@@ -328,13 +347,13 @@ ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
             </headerRanges>
         </headerGroup>
         <headerGroup skip="1">
-            <cloverField>LocationRating</cloverField>
+            <cloverField>Rating</cloverField>
             <headerRanges>
                 <headerRange begin="B1"/>
             </headerRanges>
         </headerGroup>
         <headerGroup skip="1">
-            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <cloverField>CrimeCount</cloverField>
             <headerRanges>
                 <headerRange begin="C1"/>
             </headerRanges>
@@ -343,16 +362,15 @@ ORDER BY CulturalSpacesCount DESC, AverageLocationRating DESC;]]></attr>
 </mapping>
 ]]></attr>
 </Node>
-<Edge fromNode="DATABASE_READER1:0" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 0 (input)" metadata="Metadata3" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER:0"/>
+<Edge fromNode="DATABASE_READER1:0" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 0 (input)" metadata="Metadata13" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER:0"/>
 </Phase>
 <Phase number="3">
-<Node dbConnection="JDBC3" enabled="disabled" guiName="DatabaseReader" guiX="891" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
-<attr name="sqlQuery"><![CDATA[SELECT Neighborhood, Count(ListingID) AS NumberOfListings, CulturalSpacesInNeighborhood
-FROM CulturalSpaces
-GROUP BY Neighborhood, CulturalSpacesInNeighborhood
-ORDER BY NumberOfListings DESC;]]></attr>
+<Node dbConnection="JDBC5" guiName="DatabaseReader" guiX="891" guiY="322" id="DATABASE_READER2" type="DB_INPUT_TABLE">
+<attr name="sqlQuery"><![CDATA[SELECT Neighborhood, ListingsCount AS NumberOfListings, CrimeCount
+FROM CrimeData
+ORDER BY CrimeCount DESC;]]></attr>
 </Node>
-<Node enabled="disabled" existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CulturalSpacesHypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
+<Node existingSheetsActions="REMOVE_SHEETS" fileURL="${DATAOUT_DIR}/CrimeDataHypothesis2.xlsx" guiName="SpreadsheetDataWriter" guiX="1061" guiY="322" id="SPREADSHEET_DATA_WRITER1" type="SPREADSHEET_WRITER" writeMode="OVERWRITE_SHEET_IN_MEMORY">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping>
     <globalAttributes>
@@ -375,7 +393,7 @@ ORDER BY NumberOfListings DESC;]]></attr>
             </headerRanges>
         </headerGroup>
         <headerGroup skip="1">
-            <cloverField>CulturalSpacesInNeighborhood</cloverField>
+            <cloverField>CrimeCount</cloverField>
             <headerRanges>
                 <headerRange begin="C1"/>
             </headerRanges>
@@ -384,6 +402,6 @@ ORDER BY NumberOfListings DESC;]]></attr>
 </mapping>
 ]]></attr>
 </Node>
-<Edge fromNode="DATABASE_READER2:0" guiBendpoints="" guiRouter="Manhattan" id="Edge3" inPort="Port 0 (input)" metadata="Metadata6" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER1:0"/>
+<Edge fromNode="DATABASE_READER2:0" guiBendpoints="" guiRouter="Manhattan" id="Edge13" inPort="Port 0 (input)" metadata="Metadata14" outPort="Port 0 (out)" toNode="SPREADSHEET_DATA_WRITER1:0"/>
 </Phase>
 </Graph>
